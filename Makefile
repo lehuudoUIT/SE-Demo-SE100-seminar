@@ -1,4 +1,8 @@
-DATABASE_URL:=postgres://postgres:foobarbaz@localhost:5432/postgres
+.PHONY: create-network
+create-network:
+	@echo Starting create network
+	docker network create network01 && \
+		docker network create network02
 
 .PHONY: run-postgres
 run-postgres:
@@ -12,18 +16,11 @@ run-postgres:
 		-d \
 		postgres:15.1-alpine
 
-.PHONY: create-network
-create-network:
-	@echo Starting create network
-	docker network create network01 && \
-		docker network create network02
-
 .PHONY: build-node
 build-node:
 	@echo Starting build node image
 	cd api-node && \
 		docker build -t docker-backend-demo .
-
 
 .PHONY: run-api-node
 run-api-node:
